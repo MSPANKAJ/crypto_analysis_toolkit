@@ -4,16 +4,9 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 
 def calculate_volatility(dataframe, period='daily'):
-    """
-    Calculate daily or monthly volatility.
     
-    Args:
-        dataframe (pd.DataFrame): The dataframe containing cryptocurrency price data.
-        period (str): 'daily' or 'monthly' for volatility calculation.
-    
-    Returns:
-        float: Calculated volatility.
-    """
+    #Calculate daily or monthly volatility.
+   
     if period == 'daily':
         returns = dataframe['Close'].pct_change()
     elif period == 'monthly':
@@ -28,13 +21,8 @@ def calculate_volatility(dataframe, period='daily'):
     return returns.dropna().std()
 
 def plot_volatility(dataframe, ticker):
-    """
-    Plot the rolling volatility of the cryptocurrency.
-    
-    Args:
-        dataframe (pd.DataFrame): The dataframe containing cryptocurrency price data.
-        ticker (str): The cryptocurrency ticker for labeling the plot.
-    """
+    #Plot the rolling volatility of the cryptocurrency.
+
     returns = dataframe['Close'].pct_change()
     rolling_volatility = returns.rolling(window=20).std()
 
