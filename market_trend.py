@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Define the functions directly in the file
 def get_historical_data(ticker, start_date, end_date):
-    """Fetch historical price data for a cryptocurrency."""
+    #Fetch historical price data for a cryptocurrency.
     try:
         data = yf.download(ticker, start=start_date, end=end_date)
         return data
@@ -13,7 +13,7 @@ def get_historical_data(ticker, start_date, end_date):
         raise ValueError(f"Error fetching data: {e}")
 
 def plot_price_trends(dataframe, ticker):
-    """Plot the historical closing price trend."""
+    #Plot the historical closing price trend.
     if 'Close' not in dataframe:
         raise ValueError("Dataframe does not contain 'Close' prices.")
     dataframe['Close'].plot(title=f"{ticker} Closing Price Trend", figsize=(10, 5))
@@ -22,7 +22,7 @@ def plot_price_trends(dataframe, ticker):
     plt.show()
 
 def analyze_csv_file(file_path):
-    """Load, preprocess, and analyze a CSV file."""
+    #Load, preprocess, and analyze a CSV file.
     try:
         # Load the dataset
         data = pd.read_csv(file_path)
