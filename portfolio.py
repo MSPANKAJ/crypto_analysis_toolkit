@@ -3,17 +3,8 @@ import numpy as np
 import yfinance as yf
 
 def add_to_portfolio(portfolio, ticker, quantity):
-    """
-    Add a cryptocurrency or stock to the portfolio.
+ #Add a cryptocurrency or stock to the portfolio.
     
-    Args:
-        portfolio (dict): Current portfolio (ticker: quantity).
-        ticker (str): The cryptocurrency or stock ticker.
-        quantity (float): Quantity to add.
-    
-    Returns:
-        dict: Updated portfolio.
-    """
     if ticker in portfolio:
         portfolio[ticker] += quantity
     else:
@@ -21,17 +12,8 @@ def add_to_portfolio(portfolio, ticker, quantity):
     return portfolio
 
 def calculate_portfolio_returns(portfolio, start_date, end_date):
-    """
-    Calculate the portfolio's total return over a specified period.
-    
-    Args:
-        portfolio (dict): Portfolio of tickers and quantities.
-        start_date (str): Start date (YYYY-MM-DD).
-        end_date (str): End date (YYYY-MM-DD).
-    
-    Returns:
-        float: Total portfolio return as a percentage.
-    """
+
+    #Calculate the portfolio's total return over a specified period.
     total_return = 0
     for ticker, quantity in portfolio.items():
         try:
