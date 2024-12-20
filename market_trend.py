@@ -13,7 +13,7 @@ def get_historical_data(ticker, start_date, end_date):
         raise ValueError(f"Error fetching data: {e}")
 
 def plot_price_trends(dataframe, ticker):
-    #Plot the historical closing price trend.
+    """Plot the historical closing price trend."""
     if 'Close' not in dataframe:
         raise ValueError("Dataframe does not contain 'Close' prices.")
     dataframe['Close'].plot(title=f"{ticker} Closing Price Trend", figsize=(10, 5))
@@ -73,6 +73,32 @@ def analyze_csv_file(file_path):
     
     except Exception as e:
         print(f"An error occurred while analyzing the CSV file: {e}")
+        
+def calculate_macd(dataframe, ticker, short_window=12, long_window=26, signal_window=9):
+    #Calculate and plot the MACD (Moving Average Convergence Divergence) indicator.
+    if 'Close' not in dataframe:
+        raise ValueError("Dataframe does not contain 'Close' prices.")
+
+    # Calculate EMAs
+    short_ema = dataframe['Close'].ewm(span=short_window, adjust=False).mean()
+    long_ema = dataframe['Close'].ewm(span=long_window, adjust=False).mean()
+
+    # Calculate MACD and Signal Line
+    dataframe['MACD'] = short_ema - long_ema
+    dataframe['Signal Line'] = dataframe['MACD'].ewm(span=signal_window, adjust=False).mean()
+
+    # Plot MACD
+    plt.figure(figsize=(10, 6))
+    plt.plot(dataframe.index, dataframe['MACD'], label='MACD', color='blue')
+    plt.plot(dataframe.index, dataframe['Signal Line'], label='Signal Line', color='red')
+    plt.bar(dataframe.index, dataframe['MACD'] - dataframe['Signal Line'], color='gray', alpha=0.3, label='MACD Histogram')
+    plt.title(f'{ticker} MACD Indicator')
+    plt.xlabel('Date')
+    plt.ylabel('Value')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
 
 if __name__ == "__main__":
     print("Running market_trend.py...")  # Debugging print
@@ -98,8 +124,13 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"An error occurred: {e}")
 
-   # Specify the path to your CSV file
+    # Specify the path to your CSV file
     csv_file_path = '~/Documents/crypto_analysis_toolkit/data/sample_data.csv'
     
     # Analyze the CSV file
     analyze_csv_file(csv_file_path)
+
+    # Calculate and plot MACD
+    print("Calculating and plotting MACD...\n")
+    data1 = get_historical_data(ticker, start_date, end_date)
+    calculate_macd(data1, ticker)
